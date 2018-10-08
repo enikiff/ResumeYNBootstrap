@@ -7,6 +7,7 @@ $('document').ready(function(init){
   showName();
   updateBreedLinks();
   makeButton();
+  bindEvents();
 
 });
 
@@ -26,11 +27,7 @@ function updateBreedLinks(){
 
   $('a[href^="http://www.freewebsitetemplates.com"]').each(function(){
 
-      var oldUrl = $(this).attr("href"); // Get current url
-
-      var newUrl = oldUrl.replace("http://www.freewebsitetemplates.com", "https://www.google.com/search?q="); // Create new url
-
-      $(this).attr("href", "https://www.google.com/search?q="+$(this).text()); // Set herf value
+    $(this).attr("href", "https://www.google.com/search?q="+$(this).text()); // Set herf value
 
   });
 
@@ -45,6 +42,16 @@ function makeButton(){
 $("#myFixPageButton").append("<button >Fix The Page</button>").attr("#fixPage");
 
 }
+
+//problem-5.1
+
+function bindEvents (){
+
+
+
+}
+
+
 
 //challenge-1
 
