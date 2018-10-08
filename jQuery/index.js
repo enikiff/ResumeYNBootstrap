@@ -47,9 +47,20 @@ $("#myFixPageButton").append("<button >Fix The Page</button>").attr("#fixPage");
 
 function bindEvents (){
 
+  $("#dogBreedForm").submit(function(event) {
+    event.addBreed();
+  });
+
+}
+
+//problem-5.2
+function addBreed(){
 
 
 }
+
+
+
 
 
 
