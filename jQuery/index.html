@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>jquery101</title>
+    <link href="index.css" rel="stylesheet"
+    type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> <!-- BOOTSTRAP CDN -->
+  </head>
+  <body>
+    <h1 class="text-center">JQUERY101 Assignment</h1>
+    <h4 class="text-center" id="user"></h4>
+    <div class="container">
+    <h2>Instructions</h2>
+    <p>Each problem will be completed by using jquery to interact with dog.html.  All answers should be completed inside of index.js look for commented brackets to know where to place your code.</p>
+      </div>
+    <div class="container">
+      <h3>Problem 1:</h3>
+      <p>Create a document ready event listener that will fire off a function called init that will handle initializing your jquery event binds and other functions that need to execute when the DOM is avaiable.</p>
+      <br>
+      <h3>Problem 2:</h3>
+      <p>Create a function called showName that will use jquery to add your name as text to a span with the id of "user". The showName function will be called in your init function.</p>
+      <br>
+      <h3>Problem 3:</h3>
+      <p>Create a function called updateBreedLinks that will use jquery to loop over the breed list item elements and change each li's href to https://www.google.com/search?q=DOGBREEDNAMEGOESHERE. Using jquery get the dog breed name from the text inside the li tag and add it to the end of the google search url being assigned to the href.</p>
+      <br>
+      <h3>Problem 4:</h3>
+      <p>Create a function called makeButton that will use jquery to target a div with the id myFixPageButton and create a button inside the div.  The button should have Fix The Page as text.  Also include an id on the button called fixPage. Call makeButton inside of your init function</p>
+      <br>
+      <h3>Problem 5.1:</h3>
+      <p>Create a function called bindEvents and call it in your init function to initialize your event handlers.  Within this function create an onSubmit event handler for the form tag with an id of dogBreedForm and make it call a function called addBreed.  You will create the addBreed function next.</p>
+      <br>
+      <h3>Problem 5.2:</h3>
+      <p>Create a function called addBreed.  It will be called whenever the submit button is clicked through the event handler that you set up in the previous problem.  The addBreed function will take the values from the 2 input fields next to it and create another list item and link on the right side of the webpage for the dog breed provided by the input fields.</p>
+      <br>
+      <h3>Challenge 1:</h3>
+      <p>Create a function called makeCards that will take two parameters an array of strings and an array of file paths to pictures in the images file.  Using jquery recreate a "card"(The html for a card is provided in the comments of your index.js file) and programatically create one card per string provided.  Each card is has a picture and captions for each card. The string array provided will be used for the caption of each card. The image file path names will be used to populate the img tags src attribute.  The makeCards function will be called in a fixThePage function that will be created in the next challenge.</p>
+      <br>
+      <h3>Challenge 2:</h3>
+      <p>Create a function called fixThePage.  fixThePage will be called from an event handler that registers a click event from the Fix The Page button we created in problem 4.  Call makeCards and give it some parameters.  Also use jquery to change the text within the h2 tag saying Cat's Food to Dog's Food. </p>
+      <br>
+      </div>
+      <script src="jquery.js"></script>
+      <script src="index.js"></script>
+
+  </body>
+</html>
