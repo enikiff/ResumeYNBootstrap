@@ -47,15 +47,19 @@ $("#myFixPageButton").append("<button >Fix The Page</button>").attr("#fixPage");
 
 function bindEvents (){
 
-  $("#dogBreedForm").submit(function(event) {
-    event.addBreed();
+  $("#dogBreedForm").on("submit", function(event) {
+    addBreed();
+    event.preventDefault();
   });
 
 }
 
 //problem-5.2
 function addBreed(){
+  var textInput=$("#dogBreedForm").children().next().val();
+  var textInput2=$("#dogBreedForm").children().next().next().val();
 
+alert(textInput.toString() + " " + textInput2.toString());
 
 }
 
