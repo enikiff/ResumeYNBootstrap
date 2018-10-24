@@ -13,8 +13,8 @@ ShowAuthorsModal.prototype.init = function()
 };
 
 ShowAuthorsModal.prototype._bindEvents = function (){
-  $("#show-authors-button").on("click", function(author){
-    var showAuthorNames = gRandomAuthorModal.getAuthors();
+  $("#show-authors-button").on("click", function(){
+    var showAuthorNames = gShowAuthorsModal.getAuthors();
     for (var i = 0; i < showAuthorNames.length; i++) {
         $("#author-display-modal .modal-body ul").append("<li>" + showAuthorNames[i].author + "</li>");
     }

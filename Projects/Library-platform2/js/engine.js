@@ -63,7 +63,7 @@ Library.prototype.getBookByTitle = function(title)
 {
   var matchedArr = [];
   for (var i = 0; i < window.bookShelf.length; i++) {
-    if(window.bookShelf[i].title.toLowerCase().search(title.toLowerCase()) >= 0){
+    if(window.bookShelf[i].title.search(title) >= 0){
       matchedArr.push(window.bookShelf[i]);
     }
   }
@@ -74,7 +74,7 @@ Library.prototype.getBooksByAuthor = function(authorName)
 {
   var matchedArr = [];
   for (var i = 0; i < window.bookShelf.length; i++) {
-    if(window.bookShelf[i].author.toLowerCase().search(authorName.toLowerCase()) >= 0){
+    if(window.bookShelf[i].author.search(authorName) >= 0){
       matchedArr.push(window.bookShelf[i]);
     }
   }
@@ -101,18 +101,16 @@ Library.prototype.getAuthors = function()
   return [];
 };
 
-// Library.prototype.getAuthors = function(){
-//   //create list of all authors.
-//   var allAuthors = [];
-//   for (var i=0; i < this.bookshelf.length; i++) {
-//     allAuthors[i] = this.bookshelf[i].author;
+// Library.prototype.getAuthors = function()
+//   {
+//   var allAuthors = []; //create list of all authors.
+//   for (var i=0; i < window.bookShelf.length; i++) {
+//     allAuthors[i] = window.bookShelf[i].author;
 //   }
 //   //make sure there are only unique authors, and display them.
 //   var uniqueResults = allAuthors.filter(function(author, pos) {
-//     console.log(pos);
 //       return allAuthors.indexOf(author) == pos;
 //     });
-//         // console.log(uniqueResults);
 // };
 
 
@@ -126,9 +124,16 @@ Library.prototype.getRandomAuthorName = function()
 };
 
 Library.prototype.search = function(searchParams) //searchParams is an object
-{//remove below code and implement your own search function
-
-  //TODO: ADD YOUR OWN SEARCH FUNCTION HERE
+{
+    var searchResults = [];
+    if (searchParams.title) {
+        searchResults = searchResults.concat(window.gDataTable.getBookByTitle(searchParams.title));
+    }
+    if (searchParams.author) {
+        searchResults = searchResults.concat(window.gDataTable.getBooksByAuthor(searchParams.author));
+    }
+        searchResults = searchResults.unique("title");
+        return searchResults;
 };
 
 Library.prototype.getStorage = function()

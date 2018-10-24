@@ -54,10 +54,10 @@
         <button id="show-books-button" class="btn btn-default pull-left" type="button">Show All Books</button>
         <button id="random-book-button" class="btn btn-default pull-left" type="button" data-toggle="modal" data-target="#book-display-modal">Suggest Book</button>
         <div class="form-group">
-          <input id="title-search-input" class="form-control" type="text" placeholder="Title" name="title">
-          <input id="author-search-input" class="form-control" type="text" placeholder="Author" name="author">
+          <input id="title-search-input" class="form-control" onfocus="this.value=''" type="text" placeholder="Title" name="title">
+          <input id="author-search-input" class="form-control" onfocus="this.value=''" type="text" placeholder="Author" name="author">
         </div>
-        <button type="submit" class="btn btn-default">Search</button>
+        <button id="search-btn" type="submit" class="btn btn-default">Search</button>
         <button id="random-author-button" class="btn btn-default pull-right" type="button" data-toggle="modal" data-target="#author-display-modal">Random Author</button>
         <button id="show-authors-button" class="btn btn-default pull-right" type="button" data-toggle="modal" data-target="#author-display-modal">Show All Authors</button>
       </form>
@@ -94,26 +94,26 @@
               <div class="row">
                 <div class="form-group col-xs-6">
                   <label for="pages-add-input">Pages</label>
-                  <input id="pages-add-input" class="form-control" type="number" value="300">
+                  <input id="pages-add-input" class="form-control" type="number" value="">
                 </div>
                 <div class="form-group col-xs-6">
                   <label for="date-add-input">Publication Date</label>
-                  <input id="date-add-input" class="form-control" type="date" value="2017-01-01">
+                  <input id="date-add-input" class="form-control" type="date" value="">
                 </div>
               </div>
               <div class="form-group">
                 <label for="synopsis-add-input">Synopsis</label><br>
-                <textarea id="synopsis-add-input" name="textarea" cols="75" rows="5" maxlength="250">No synopsis available.</textarea>
+                <textarea id="synopsis-add-input" name="textarea" cols="66" rows="5" maxlength="2500"></textarea>
               </div>
 
 
               <div class="form-group">
                 <label for="cover-add-input">Book cover</label>
                 <input id="cover-add-input" type="file" accept=".jpg, .jpeg, .png">
-                <img id="addBookCoverImage" class="tableImg" alt="book cover image"/>
+                <img id="add-book-cover-image" src="" class="tableImg" alt="book cover image"/>
               </div>
               <button id="queue-book-button" class="btn btn-default pull-left" type="submit">Queue Book To Add</button>
-              <button id="addBook" class="btn btn-default btn-add pull-right" type="button" data-dismiss="modal">Add Books To Library</button>
+              <button id="add-book-btn" class="btn btn-default btn-add pull-right" type="button" data-dismiss="modal">Add Books To Library</button>
               <div class="counter-message pull-right">
                 <span id="add-books-counter">0</span> book(s) ready to add!&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right"></span>&nbsp;&nbsp;&nbsp;
               </div>
@@ -152,16 +152,16 @@
     <div id="book-display-modal" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
+          <div id="suggestModalBook" class="modal-header">
             <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title"></h4>
           </div>
           <div id="allBookModal" class="modal-body">
             <div id="book-cover" class="col-sm-6 book-cover"></div>
-            <div id="modal-slider" class="col-sm-6 modal-sidebar"></div>
+            <div id="modal-sidebar" class="col-sm-6 modal-sidebar"></div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+            <button id="btnClodeSugBook" class="btn btn-default" type="button" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

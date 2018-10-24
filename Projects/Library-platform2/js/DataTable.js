@@ -1,33 +1,110 @@
-function DataTable()
-{
-  Library.call(this);
-  this.$container = $('#data-table');
-}
+  function DataTable()
+  {
+    Library.call(this);
+    this.$container = $('#data-table');
+    this.newBookArray = [];
+    var editBookArray = [];
+  }
 
 DataTable.prototype = Object.create(Library.prototype);
 
 DataTable.prototype.init = function()
-{
-  this._bindEvents();
-  this._bindCustomListeners();
-  this._updateStorage(); //all logic branches of _updateStorage call _updateTable, so this._updateTable is no longer necessary
-};
+      {
+        this._bindEvents();
+        this._updateStorage();
+      };
 
 DataTable.prototype._bindEvents = function ()
-{
+      {
+        $(document).on('submit', $.proxy(this._handleSearch, this));
+        $(document).on('click', $.proxy(this._updateStorage,this));
+        $(document).on('objUpdate', $.proxy(this._updateTable, this));
+        $(document).on('click','.deleteBox',$.proxy(this._handleDelete,this));
+        $(document).on('click','.editBox',$.proxy(this._handleEdit,this));
+
+      };
 
 
-  //TODO: add native events here for search and any others needed
+
+// DataTable.prototype._handleSearch = function (e)
+// {
+//   e.preventDefault();
+//   var serArr = $('#search-form').serializeArray();
+//   var myObj = {};
+//   $.each(serArr,function(index, entry){
+//     if(entry.value){
+//       myObj[entry.name] = entry.value;
+//     }
+//   });
+//   var searchResults = this.search(myObj);
+//   this.handleEventTrigger('objUpdate', searchResults);
+//
+//   return false;
+// };
+
+DataTable.prototype._handleDelete = function (e) {
+  var bookTitle = "";
+  var myTd;
+  bookTitle = $(e.target).data('title');//BY USING .DATA ATTRIBUTE
+  if (confirm("Are you sure you want to delete " + bookTitle +'?')) {
+    this.removeBookByTitle(bookTitle);
+    this._makeTable(window.bookShelf);
+    return true;
+  }
+  return false;
 
 };
 
-DataTable.prototype._bindCustomListeners = function ()
+DataTable.prototype._handleEdit = function (e)
 {
 
-  // $('#search-form').on('submit', $.proxy(this._handleSearch, this, 'objUpdate', this.search()));
-  $('#search-form').on('submit',$.proxy(this._handleSearch, this));
-  $(document).on('objUpdate', $.proxy(this._updateTable, this));
-  //This is a global object that can be accessed as window.bookShelf. This will hold the state of your bookShelf.
+    //var bookTitle = "";
+    var title = $(e.target).closest('tr').children()[1];
+    var author = $(e.target).closest('tr').children()[2];
+    var synopsis = $(e.target).closest('tr').children()[3];
+    var pages = $(e.target).closest('tr').children()[4];
+    //var date = $(e.target).closest('tr').children()[5];
+    //var rating = $(e.target).closest('tr').children()[6];//THROUGH DOM TRAVERSAL
+// -------------------------------------------------------//
+    var bookTitle = $(title).text();
+    var bookAuthor = $(author).text();
+    var bookSynopsis = $(synopsis).text();
+    var bookPages = $(pages).text();
+    //var bookDate = $(date).text();
+    //var bookRating = $(rating).text();
+
+    if (confirm("Do you want to edit this book " + '"' + bookTitle + '" ' + '?')) {
+    $('#add-books-modal').modal('show');
+
+    //var getCover = $("#add-book-cover-image").attr("src");
+    var editTitle = $("#title-add-input").val(bookTitle);
+    var editAuthor =$("#author-add-input").val(bookAuthor);
+    var editSynopsis =$("#synopsis-add-input").val(bookSynopsis);
+    var editPages =$("#pages-add-input").val(bookPages);
+    //var newTitle =$("#date-add-input").val(bookDate);
+    //var newTitle =$("#rating-add-input").val(bookRating);
+    editBookArray =
+    {
+        newTitle: editTitle,
+        newAuthor: editAuthor,
+        newSynopsis: editSynopsis,
+        newPages: editPages,
+    };
+    return true;
+    }
+
+
+    this.newBookArray.push(editBookArray);
+    counter ++;
+    $("#add-books-counter").text(counter);
+    $("#add-books-modal form")[0].reset();
+
+    this.addBooks(this.newBookArray);
+    $("#add-books-counter").text("0");
+    this.handleEventTrigger('objUpdate', window.bookShelf);
+              //  location.reload();
+
+return false;
 };
 
 
@@ -35,17 +112,13 @@ DataTable.prototype._bindCustomListeners = function ()
 DataTable.prototype._handleSearch = function (e)
 {
   e.preventDefault();
-  var serArr = $('#search-form').serializeArray();
   var myObj = {};
-  $.each(serArr,function(index, entry){
-    if(entry.value){
-      myObj[entry.name] = entry.value;
-    }
-  });
-  var searchResults = this.search(myObj);
-  this.handleEventTrigger('objUpdate', searchResults);
+  myObj.title = $("#search-form").find("#title-search-input").val();
+  //alert("I'm searching");
+  myObj.author = $("#search-form").find("#author-search-input").val();
 
-  return false;
+  this._makeTable(this.search(myObj));
+
 };
 
 DataTable.prototype._updateTable = function (e) {
@@ -69,18 +142,25 @@ DataTable.prototype._createHead = function (book)
   var tr = $('<tr>');
   for (var key in book) {
     var th = $('<th>').text(spacesToCamelCase(key));
-    tr.append(th)
-  }
+    tr.append(th);
+}
   var dTH = $('<th>').text('Delete Book');
   tr.append(dTH);
+  //return tr;
+  var eTH = $('<th>').text('Edit Book');
+  tr.append(eTH);
   return tr;
+
 };
 
 DataTable.prototype._createRow = function (book)
 {
   var tr = $('<tr>');
+  var deleteTd = $('<td>');
+  var editTd = $('<td>');
   //This created our delete column
-  var deleteInput = $('<input>').attr('type', 'checkbox');
+  var deleteInput = $('<input class="deleteBox">').attr('type', 'checkbox');
+  var editInput = $('<input class="editBox">').attr('type', 'checkbox');
   for(var key in book){
     var td = $('<td>');
     if (key === 'cover') {
@@ -88,14 +168,19 @@ DataTable.prototype._createRow = function (book)
       $(td).html(img);
     } else if(key === 'rating'){
       $(td).html(this._stars(book[key]));
-    } else {
+    }else if(key === 'title'){
+      $(td).text(book[key]);
+   $(deleteInput).data('title',book[key]);
+ } else {
       $(td).html(key === 'synopsis' ? book[key].substring(0,85) + "..." : book[key]);
     }
     tr.append(td);
   }
-  var deleteTd = $('<td>');
+//${book.title}
   $(deleteTd).append(deleteInput);
   tr.append(deleteTd);
+  $(editTd).append(editInput);
+  tr.append(editTd);
   return tr;
 };
 
